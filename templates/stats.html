@@ -135,13 +135,13 @@
     <div class="stats-container">
         <div class="stats-header">
             <div>
-                <h1 class="stats-title">📊 Yig'ilgan Natijalar Bazasi</h1>
-                <p style="color: #94a3b8; margin-top: 6px;">Foydalanuvchilar kiritgan ma'lumotlar va saqlangan dataset</p>
+                <h1 class="stats-title">📊 Yig'ilgan Natijalar Bazasi / Prediction Database</h1>
+                <p style="color: #94a3b8; margin-top: 6px;">Foydalanuvchilar kiritgan ma'lumotlar va dataset / Collected user prediction logs</p>
             </div>
             <div class="stats-actions">
-                <a href="/" class="btn-action btn-secondary">← Bosh Sahifa</a>
-                <a href="/download-dataset" class="btn-action btn-primary">📥 CSV Yuklab Olish</a>
-                <a href="/admin-logout" class="btn-action btn-secondary" style="border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">🚪 Chiqish</a>
+                <a href="/" class="btn-action btn-secondary">← Bosh Sahifa / Home</a>
+                <a href="/download-dataset" class="btn-action btn-primary">📥 CSV Yuklab Olish / Download</a>
+                <a href="/admin-logout" class="btn-action btn-secondary" style="border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">🚪 Chiqish / Logout</a>
             </div>
         </div>
 
@@ -157,15 +157,15 @@
             <div class="summary-cards">
                 <div class="summary-card">
                     <div class="num">{{ total }}</div>
-                    <div class="label">Jami So'rovlar Soni</div>
+                    <div class="label">Jami So'rovlar / Total Logs</div>
                 </div>
                 <div class="summary-card">
                     <div class="num">{{ high_surv.count }}</div>
-                    <div class="label">Tirik Qolish Ehtimoli > 50%</div>
+                    <div class="label">Omon Qolish > 50% / High Chance</div>
                 </div>
                 <div class="summary-card">
                     <div class="num">{{ (high_surv.count / total * 100)|round(1) }}%</div>
-                    <div class="label">O'rtacha Tirik Qolish Ko'rsatkichi</div>
+                    <div class="label">O'rtacha Ko'rsatkich / Avg Rate</div>
                 </div>
             </div>
 
@@ -173,15 +173,15 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Vaqt</th>
-                            <th>Ism</th>
-                            <th>Jinsi</th>
-                            <th>Yoshi</th>
-                            <th>Klass</th>
-                            <th>Chipta ($)</th>
-                            <th>Oila</th>
+                            <th>Vaqt / Time</th>
+                            <th>Ism / Name</th>
+                            <th>Jinsi / Gender</th>
+                            <th>Yoshi / Age</th>
+                            <th>Klass / Class</th>
+                            <th>Chipta / Fare</th>
+                            <th>Oila / Family</th>
                             <th>Port</th>
-                            <th>Omon Qolish</th>
+                            <th>Omon Qolish / Survival</th>
                         </tr>
                     </thead>
                     <tbody>

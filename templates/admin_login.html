@@ -93,19 +93,19 @@
 <body>
     <div class="login-box">
         <div class="login-icon">🔐</div>
-        <h2 class="login-title">Admin Xavfsizlik</h2>
-        <p class="login-desc">Statistika va to'plangan dataset faqat loyiha egasiga ko'rinadi.</p>
+        <h2 class="login-title">Admin Xavfsizlik / Security</h2>
+        <p class="login-desc">Statistika va to'plangan dataset faqat loyiha egasiga ko'rinadi.<br><span style="font-size:0.82rem; color:#64748b;">Analytics and collected datasets are restricted to the owner.</span></p>
 
         {% if error %}
             <div class="alert-error">{{ error }}</div>
         {% endif %}
 
         <form method="POST" action="/admin-login">
-            <input type="password" name="password" class="form-control" placeholder="Admin maxfiy paroli" required autofocus>
-            <button type="submit" class="btn-submit">Tizimga Kirish</button>
+            <input type="password" name="password" class="form-control" placeholder="Admin maxfiy paroli / Admin password" required autofocus>
+            <button type="submit" class="btn-submit">Tizimga Kirish / Login</button>
         </form>
 
-        <a href="/" class="back-link">← Bosh sahifaga qaytish</a>
+        <a href="/" class="back-link">← Bosh sahifaga qaytish / Back to Home</a>
     </div>
 </body>
 </html>

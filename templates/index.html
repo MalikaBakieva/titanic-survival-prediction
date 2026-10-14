@@ -41,16 +41,16 @@
         <!-- Header -->
         <header class="header" id="header">
             <div class="ship-icon">🚢</div>
-            <h1 class="title">Titanic Bashorat</h1>
-            <p class="subtitle">1912-yil. Siz Titanikda bo'lganingizda omon qolar edingizmi?</p>
-            <p class="subtitle-small">Sun'iy intellekt (Logistik Regressiya) yordamida bashorat qiling</p>
+            <h1 class="title">Titanic Bashorat <span class="en-sub" style="font-size: 1.4rem; color: #38bdf8; font-family: var(--font); font-weight: 600;">Titanic Survival Predictor</span></h1>
+            <p class="subtitle">1912-yil. Siz Titanikda bo'lganingizda omon qolar edingizmi?<br><span class="en-sub">Would you have survived the Titanic disaster in 1912?</span></p>
+            <p class="subtitle-small">Sun'iy intellekt (Logistik Regressiya) yordamida bashorat qiling &bull; Powered by Machine Learning</p>
         </header>
 
         <!-- Main Form Card -->
         <div class="card main-card" id="prediction-form">
             <div class="card-header">
                 <div class="card-icon">📋</div>
-                <h2>Ma'lumotlaringizni kiriting</h2>
+                <h2>Ma'lumotlaringizni kiriting <span class="en-label">/ Enter Your Details</span></h2>
             </div>
 
             <form id="titanicForm" onsubmit="return false;">
@@ -58,13 +58,13 @@
                 <div class="form-group">
                     <label for="name" class="form-label">
                         <span class="label-icon">👤</span>
-                        Ismingiz <span class="optional">(majburiy emas)</span>
+                        Ismingiz <span class="en-label">/ Full Name</span> <span class="optional">(majburiy emas / optional)</span>
                     </label>
                     <input 
                         type="text" 
                         id="name" 
                         class="form-input" 
-                        placeholder="Masalan: Jack Dawson"
+                        placeholder="Masalan: Jack Dawson / e.g. Jack Dawson"
                         autocomplete="off"
                     >
                 </div>
@@ -73,21 +73,21 @@
                 <div class="form-group">
                     <label class="form-label">
                         <span class="label-icon">⚧</span>
-                        Jins <span class="required">*</span>
+                        Jins <span class="en-label">/ Gender</span> <span class="required">*</span>
                     </label>
                     <div class="gender-selector">
                         <label class="gender-option" id="gender-male">
                             <input type="radio" name="sex" value="0" required>
                             <div class="gender-card">
                                 <span class="gender-icon">👨</span>
-                                <span class="gender-text">Erkak</span>
+                                <span class="gender-text">Erkak <small style="display:block; font-size:0.8rem; color:#94a3b8; font-weight:normal;">/ Male</small></span>
                             </div>
                         </label>
                         <label class="gender-option" id="gender-female">
                             <input type="radio" name="sex" value="1">
                             <div class="gender-card">
                                 <span class="gender-icon">👩</span>
-                                <span class="gender-text">Ayol</span>
+                                <span class="gender-text">Ayol <small style="display:block; font-size:0.8rem; color:#94a3b8; font-weight:normal;">/ Female</small></span>
                             </div>
                         </label>
                     </div>
@@ -97,52 +97,52 @@
                 <div class="form-group">
                     <label for="age" class="form-label">
                         <span class="label-icon">🎂</span>
-                        Yosh <span class="required">*</span>
+                        Yosh <span class="en-label">/ Age</span> <span class="required">*</span>
                     </label>
                     <input 
                         type="number" 
                         id="age" 
                         class="form-input" 
-                        placeholder="Yoshingizni kiriting"
+                        placeholder="Yoshingizni kiriting / Enter your age"
                         min="0" 
                         max="100" 
                         required
                     >
-                    <div class="input-hint">0 dan 100 gacha</div>
+                    <div class="input-hint">0 dan 100 gacha / Between 0 and 100 years</div>
                 </div>
 
                 <!-- Passenger Class -->
                 <div class="form-group">
                     <label class="form-label">
                         <span class="label-icon">🎫</span>
-                        Klass (Chipta turi) <span class="required">*</span>
+                        Klass (Chipta turi) <span class="en-label">/ Passenger Class</span> <span class="required">*</span>
                     </label>
                     <div class="class-selector">
                         <label class="class-option" id="class-1">
                             <input type="radio" name="pclass" value="1" required>
                             <div class="class-card class-card-1">
-                                <span class="class-badge">1-klass</span>
-                                <span class="class-name">Lyuks</span>
+                                <span class="class-badge">1-klass / 1st</span>
+                                <span class="class-name">Lyuks / Luxury</span>
                                 <span class="class-price" id="price-1">~$84.15</span>
-                                <span class="class-desc">Eng yaxshi xonalar</span>
+                                <span class="class-desc">Eng yaxshi xonalar / Best suites</span>
                             </div>
                         </label>
                         <label class="class-option" id="class-2">
                             <input type="radio" name="pclass" value="2">
                             <div class="class-card class-card-2">
-                                <span class="class-badge">2-klass</span>
-                                <span class="class-name">O'rta</span>
+                                <span class="class-badge">2-klass / 2nd</span>
+                                <span class="class-name">O'rta / Middle</span>
                                 <span class="class-price" id="price-2">~$20.66</span>
-                                <span class="class-desc">Qulay sayohat</span>
+                                <span class="class-desc">Qulay sayohat / Comfortable</span>
                             </div>
                         </label>
                         <label class="class-option" id="class-3">
                             <input type="radio" name="pclass" value="3">
                             <div class="class-card class-card-3">
-                                <span class="class-badge">3-klass</span>
-                                <span class="class-name">Oddiy</span>
+                                <span class="class-badge">3-klass / 3rd</span>
+                                <span class="class-name">Oddiy / Economy</span>
                                 <span class="class-price" id="price-3">~$13.68</span>
-                                <span class="class-desc">Arzon chipta</span>
+                                <span class="class-desc">Arzon chipta / Standard ticket</span>
                             </div>
                         </label>
                     </div>
@@ -152,7 +152,7 @@
                 <div class="form-group">
                     <label for="fare" class="form-label">
                         <span class="label-icon">💰</span>
-                        Chipta narxi ($)
+                        Chipta narxi <span class="en-label">/ Ticket Fare ($)</span>
                     </label>
                     <input 
                         type="number" 
@@ -163,14 +163,14 @@
                         max="600"
                         required
                     >
-                    <div class="input-hint">Klass tanlanganida avtomatik belgilanadi</div>
+                    <div class="input-hint">Klass tanlanganda avtomatik belgilanadi / Auto-set by passenger class</div>
                 </div>
 
                 <!-- Family members (Feature Engineering: SibSp + Parch -> FamilySize) -->
                 <div class="form-group">
                     <label for="family_members" class="form-label">
                         <span class="label-icon">👨‍👩‍👧‍👦</span>
-                        Oila a'zolari soni <span class="optional">(siz bilan birga)</span>
+                        Oila a'zolari soni <span class="en-label">/ Family Members</span> <span class="optional">(siz bilan birga / with you)</span>
                     </label>
                     <input 
                         type="number" 
@@ -180,14 +180,14 @@
                         min="0" 
                         max="15"
                     >
-                    <div class="input-hint">Kema bortida siz bilan bo'lgan ota-ona, aka-uka, turmush o'rtoq yoki farzandlar soni (yolg'iz bo'lsangiz 0)</div>
+                    <div class="input-hint">Kema bortidagi oila a'zolari: ota-ona, aka-uka, turmush o'rtoq, bolalar (yolg'iz bo'lsangiz 0) / Family aboard (0 if travelling alone)</div>
                 </div>
 
                 <!-- Embarked Port -->
                 <div class="form-group">
                     <label class="form-label">
                         <span class="label-icon">🏖️</span>
-                        Jo'nab chiqqan port
+                        Jo'nab chiqqan port <span class="en-label">/ Port of Embarkation</span>
                     </label>
                     <div class="port-selector">
                         <label class="port-option">
@@ -217,7 +217,7 @@
                 <!-- Submit Button -->
                 <button type="button" id="predictBtn" class="btn-predict" onclick="submitPrediction()">
                     <span class="btn-icon">🔮</span>
-                    <span class="btn-text">Bashorat Qilish</span>
+                    <span class="btn-text">Bashorat Qilish / Predict Survival</span>
                     <span class="btn-loader" id="btnLoader" style="display:none;">
                         <span class="spinner"></span>
                     </span>
@@ -252,17 +252,17 @@
                 <div class="result-facts" id="result-facts"></div>
                 
                 <button class="btn-retry" onclick="resetForm()">
-                    <span>🔄</span> Qayta Urinish
+                    <span>🔄</span> Qayta Urinish / Try Again
                 </button>
                 
                 <div class="share-section">
-                    <p class="share-title">Do'stlaringiz bilan ulashing!</p>
+                    <p class="share-title">Do'stlaringiz bilan ulashing! / Share with friends!</p>
                     <div class="share-buttons">
                         <a class="share-btn share-telegram" id="share-telegram" href="#" target="_blank">
                             📨 Telegram
                         </a>
                         <a class="share-btn share-copy" id="share-copy" onclick="copyLink()">
-                            📋 Linkni nusxalash
+                            📋 Linkni nusxalash / Copy Link
                         </a>
                     </div>
                 </div>
@@ -271,13 +271,13 @@
 
         <!-- Admin link -->
         <div class="stats-link">
-            <a href="/stats" class="stats-btn" style="opacity: 0.7; font-size: 0.85rem;">🔒 Admin Panel (Faqat egasi uchun)</a>
+            <a href="/stats" class="stats-btn" style="opacity: 0.7; font-size: 0.85rem;">🔒 Admin Panel (Faqat egasi uchun / Admin only)</a>
         </div>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>🚢 Titanic Bashorat — Logistik Regressiya modeli asosida</p>
-            <p class="footer-small">Ma'lumotlar faqat o'quv maqsadida ishlatiladi</p>
+            <p>🚢 Titanic Bashorat &bull; Titanic Survival Predictor — Logistik Regressiya (AI)</p>
+            <p class="footer-small">Ta'limiy va namoyish maqsadida / Educational and demonstration purpose only</p>
         </footer>
     </div>
 
@@ -310,19 +310,19 @@
             const fare = document.getElementById('fare').value;
             
             if (!sex) {
-                showToast('Iltimos, jinsni tanlang!', 'error');
+                showToast('Iltimos, jinsni tanlang! / Please select gender!', 'error');
                 return;
             }
             if (!age || age < 0 || age > 100) {
-                showToast('Iltimos, to\'g\'ri yoshni kiriting!', 'error');
+                showToast('Iltimos, to\'g\'ri yoshni kiriting! / Please enter a valid age!', 'error');
                 return;
             }
             if (!pclass) {
-                showToast('Iltimos, klassni tanlang!', 'error');
+                showToast('Iltimos, klassni tanlang! / Please select passenger class!', 'error');
                 return;
             }
             if (!fare) {
-                showToast('Iltimos, chipta narxini kiriting!', 'error');
+                showToast('Iltimos, chipta narxini kiriting! / Please enter ticket fare!', 'error');
                 return;
             }
 
@@ -331,7 +331,7 @@
             const btnLoader = document.getElementById('btnLoader');
             
             btn.disabled = true;
-            btnText.textContent = 'Hisoblanmoqda...';
+            btnText.textContent = 'Hisoblanmoqda... / Calculating...';
             btnLoader.style.display = 'inline-flex';
 
             const data = {
@@ -356,13 +356,13 @@
                 if (result.success) {
                     showResult(result.probability, result.name, data);
                 } else {
-                    showToast('Xatolik yuz berdi: ' + result.error, 'error');
+                    showToast('Xatolik / Error: ' + result.error, 'error');
                 }
             } catch (err) {
-                showToast('Server bilan bog\'lanishda xatolik!', 'error');
+                showToast('Server bilan bog\'lanishda xatolik! / Connection error!', 'error');
             } finally {
                 btn.disabled = false;
-                btnText.textContent = 'Bashorat Qilish';
+                btnText.textContent = 'Bashorat Qilish / Predict Survival';
                 btnLoader.style.display = 'none';
             }
         }
@@ -380,7 +380,7 @@
             resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             // Set name
-            const displayName = name || 'Sayohatchi';
+            const displayName = name || 'Sayohatchi / Passenger';
             document.getElementById('result-name').textContent = displayName;
             
             // Set result label and message
@@ -388,17 +388,17 @@
             const message = document.getElementById('result-message');
             
             if (probability >= 70) {
-                label.textContent = '🎉 Omon Qolish Ehtimoli Yuqori!';
+                label.innerHTML = '🎉 Omon Qolish Ehtimoli Yuqori!<br><span style="font-size:0.95rem; font-weight:normal; opacity:0.9;">High Survival Probability!</span>';
                 label.className = 'result-label result-survived';
-                message.textContent = `${displayName}, sizning omon qolish ehtimolligingiz juda yuqori! Omadingiz bor edi.`;
+                message.innerHTML = `<strong>${displayName}</strong>, sizning omon qolish ehtimolligingiz juda yuqori! Omadingiz bor edi.<br><span style="color:#94a3b8; font-size:0.92rem; display:block; margin-top:6px;">Your survival chance is very high! Luck was on your side.</span>`;
             } else if (probability >= 40) {
-                label.textContent = '⚠️ 50/50 Ehtimollik';
+                label.innerHTML = '⚠️ 50/50 Ehtimollik<br><span style="font-size:0.95rem; font-weight:normal; opacity:0.9;">Moderate / 50-50 Chance</span>';
                 label.className = 'result-label result-maybe';
-                message.textContent = `${displayName}, sizning taqdringiz noaniq. Omad siz tomonda bo'lishi ham, bo'lmasligi ham mumkin edi.`;
+                message.innerHTML = `<strong>${displayName}</strong>, sizning taqdringiz noaniq. Omad siz tomonda bo'lishi ham, bo'lmasligi ham mumkin edi.<br><span style="color:#94a3b8; font-size:0.92rem; display:block; margin-top:6px;">Your fate was uncertain. The outcome depended on circumstance.</span>`;
             } else {
-                label.textContent = '💔 Xavf Yuqori';
+                label.innerHTML = '💔 Xavf Yuqori<br><span style="font-size:0.95rem; font-weight:normal; opacity:0.9;">Low Survival Probability</span>';
                 label.className = 'result-label result-perished';
-                message.textContent = `${displayName}, afsuski, omon qolish ehtimolligingiz past. Titanic halokati juda xavfli edi.`;
+                message.innerHTML = `<strong>${displayName}</strong>, afsuski, omon qolish ehtimolligingiz past. Titanic halokati juda xavfli edi.<br><span style="color:#94a3b8; font-size:0.92rem; display:block; margin-top:6px;">Unfortunately, your survival chance was low. The disaster was tragic and unforgiving.</span>`;
             }
             
             // Show interesting facts
@@ -410,7 +410,7 @@
             animateGauge(probability);
             
             // Update share links
-            const shareText = `🚢 Titanic bashorati: Mening omon qolish ehtimolim ${probability}%! Sen ham sinab ko'r:`;
+            const shareText = `🚢 Titanic bashorati / Titanic Prediction: Mening omon qolish ehtimolim / My survival probability: ${probability}%! Check yours:`;
             const shareUrl = window.location.origin;
             document.getElementById('share-telegram').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
         }
@@ -460,26 +460,26 @@
             const facts = [];
             
             if (data.sex === 1) {
-                facts.push('👩 Ayollar omon qolish ehtimoli ancha yuqori bo\'lgan — "Ayollar va bolalar birinchi!" qoidasi.');
+                facts.push('👩 <b>Ayollar / Women:</b> Omon qolish ehtimoli ancha yuqori bo\'lgan — "Ayollar va bolalar birinchi!" qoidasi.<br><small style="color:#94a3b8;">Women had a much higher survival rate — "Women and children first!" protocol.</small>');
             } else {
-                facts.push('👨 Erkaklar omon qolish ehtimoli pastroq bo\'lgan — qutqaruv qayiqlarida ayollar va bolalarga ustuvorlik berilgan.');
+                facts.push('👨 <b>Erkaklar / Men:</b> Erkaklar omon qolish ehtimoli pastroq bo\'lgan.<br><small style="color:#94a3b8;">Men had lower survival rates as lifeboats prioritized women and children.</small>');
             }
             
             if (data.pclass === 1) {
-                facts.push('🥇 1-klass yo\'lovchilari 62.96% ehtimollik bilan omon qolishgan.');
+                facts.push('🥇 <b>1-klass / 1st Class:</b> 62.96% yo\'lovchilari omon qolishgan.<br><small style="color:#94a3b8;">62.96% of first class passengers survived.</small>');
             } else if (data.pclass === 2) {
-                facts.push('🥈 2-klass yo\'lovchilari 47.28% ehtimollik bilan omon qolishgan.');
+                facts.push('🥈 <b>2-klass / 2nd Class:</b> 47.28% yo\'lovchilari omon qolishgan.<br><small style="color:#94a3b8;">47.28% of second class passengers survived.</small>');
             } else {
-                facts.push('🥉 3-klass yo\'lovchilari faqat 24.24% ehtimollik bilan omon qolishgan.');
+                facts.push('🥉 <b>3-klass / 3rd Class:</b> Faqat 24.24% yo\'lovchilari omon qolishgan.<br><small style="color:#94a3b8;">Only 24.24% of third class passengers survived.</small>');
             }
             
             if (data.age < 16) {
-                facts.push('👶 Bolalar omon qolish ehtimoli kattaroq bo\'lgan.');
+                facts.push('👶 <b>Bolalar / Children:</b> Bolalar omon qolish ehtimoli kattaroq bo\'lgan.<br><small style="color:#94a3b8;">Children had higher priority and chances of survival.</small>');
             } else if (data.age > 60) {
-                facts.push('👴 Keksa yo\'lovchilar uchun vaziyat qiyinroq bo\'lgan.');
+                facts.push('👴 <b>Keksalar / Seniors:</b> Keksa yo\'lovchilar uchun vaziyat qiyinroq bo\'lgan.<br><small style="color:#94a3b8;">Elderly passengers faced greater hardships.</small>');
             }
             
-            facts.push('📊 Titanikda 2224 yo\'lovchidan 710 tasi (31.9%) omon qolgan.');
+            facts.push('📊 <b>Umumiy / Overall:</b> Titanikda 2224 yo\'lovchidan 710 tasi (31.9%) omon qolgan.<br><small style="color:#94a3b8;">Overall, only 710 out of 2224 people (31.9%) survived the disaster.</small>');
             
             return '<div class="facts-grid">' + 
                    facts.map(f => `<div class="fact-item">${f}</div>`).join('') + 
