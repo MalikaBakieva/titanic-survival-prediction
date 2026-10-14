@@ -8,6 +8,7 @@ import sys
 import json
 import csv
 import html
+import urllib.request
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify, send_file, session, redirect, url_for
 
@@ -26,9 +27,26 @@ if sys.platform.startswith('win'):
 
 app = Flask(__name__)
 
+# Load .env if present
+_env_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.exists(_env_file):
+    try:
+        with open(_env_file, "r", encoding="utf-8") as _f:
+            for _line in _f:
+                _line = _line.strip()
+                if _line and not _line.startswith("#") and "=" in _line:
+                    _k, _v = _line.split("=", 1)
+                    os.environ.setdefault(_k.strip(), _v.strip())
+    except Exception:
+        pass
+
 # Security: Session secret key & Admin password
 app.secret_key = os.environ.get('SECRET_KEY', 'titanic-malika-secure-2026-key')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'malika2026')
+
+# Telegram Bot integration
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '8793302903:AAGy3fsw-0Q2PSiojnV0eJOHiDoR4ObHrpM')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '2090586626')
 
 # ─── Model setup ────────────────────────────────────────────────────────────
 MODEL = None
@@ -164,6 +182,43 @@ def get_predictions_data():
     return predictions
 
 
+def send_telegram_notification(data):
+    """Send new prediction notification to Telegram asynchronously/safely."""
+    token = os.environ.get('TELEGRAM_BOT_TOKEN', TELEGRAM_BOT_TOKEN)
+    chat_id = os.environ.get('TELEGRAM_CHAT_ID', TELEGRAM_CHAT_ID)
+    if not token or not chat_id:
+        return False
+
+    status_icon = "🟢" if data['survival_probability'] >= 50 else "🔴"
+    status_text = "Omon qolish ehtimoli yuqori" if data['survival_probability'] >= 50 else "Xavf yuqori"
+
+    msg = (
+        f"🚢 <b>Yangi Titanic Bashorati!</b>\n\n"
+        f"👤 <b>Ism:</b> {data['name']}\n"
+        f"⚧ <b>Jins:</b> {data['sex']}\n"
+        f"🎂 <b>Yosh:</b> {data['age']}\n"
+        f"🎫 <b>Klass:</b> {data['pclass']}-klass (${data['fare']})\n"
+        f"👨‍👩‍👧‍👦 <b>Oila a'zolari:</b> {data['family_members']} ta\n"
+        f"🏖 <b>Port:</b> {data['embarked']}\n"
+        f"🔮 <b>Ehtimollik:</b> <b>{data['survival_probability']}%</b> {status_icon} ({status_text})\n"
+        f"⏱ <b>Vaqt:</b> {data['timestamp']}"
+    )
+
+    try:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        payload = json.dumps({
+            "chat_id": chat_id,
+            "text": msg,
+            "parse_mode": "HTML"
+        }).encode('utf-8')
+        req = urllib.request.Request(url, data=payload, headers={'Content-Type': 'application/json'})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            return resp.status == 200
+    except Exception as e:
+        print(f"[OGOHLANTIRISH] Telegramga yuborishda xatolik: {e}")
+        return False
+
+
 # ─── Public Routes ──────────────────────────────────────────────────────────
 @app.route('/')
 def index():
@@ -203,8 +258,8 @@ def predict():
         ip_parts = raw_ip.split('.')
         anonymized_ip = f"{ip_parts[0]}.{ip_parts[1]}.*.*" if len(ip_parts) == 4 else "anonim"
 
-        # Save to dataset
-        save_prediction({
+        # Record data
+        prediction_record = {
             'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'name': name if name else 'Anonim',
             'sex': 'Erkak' if sex == 0 else 'Ayol',
@@ -217,7 +272,16 @@ def predict():
             'embarked': embarked,
             'survival_probability': probability,
             'ip_address': anonymized_ip
-        })
+        }
+
+        # Save to dataset CSV
+        save_prediction(prediction_record)
+
+        # Send instant notification to Telegram Bot
+        try:
+            send_telegram_notification(prediction_record)
+        except Exception:
+            pass
 
         return jsonify({
             'success': True,
@@ -280,6 +344,27 @@ def download_dataset():
     if os.path.exists(DATA_FILE):
         return send_file(DATA_FILE, as_attachment=True, download_name='titanic_user_predictions.csv')
     return "Dataset hali mavjud emas. Avval bashorat qilib ko'ring!", 404
+
+
+@app.route('/test-telegram')
+def test_telegram():
+    """Test endpoint to verify Telegram Bot notifications."""
+    test_data = {
+        'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'name': 'Test Sayohatchi (Malika)',
+        'sex': 'Ayol',
+        'age': 20,
+        'pclass': 1,
+        'fare': 84.15,
+        'family_members': 1,
+        'embarked': 'S',
+        'survival_probability': 95.8
+    }
+    success = send_telegram_notification(test_data)
+    if success:
+        return "<h3>✅ Telegram botingizga test xabari muvaffaqiyatli yuborildi! Telegramni tekshiring.</h3>"
+    else:
+        return "<h3>❌ Xatolik! TELEGRAM_BOT_TOKEN yoki TELEGRAM_CHAT_ID sozlanmagan, yoki botingizga /start bosmagansiz.</h3>", 400
 
 
 # ─── Initialize ─────────────────────────────────────────────────────────────
