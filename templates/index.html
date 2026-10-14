@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚢 Titanic Bashorat — Siz Omon Qolar Edingizmi?</title>
+    <meta name="description" content="Titanic kemasi halokatida omon qolish ehtimolligingizni bilib oling! Sun'iy intellekt asosida ishlaydi.">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="🚢 Titanic Bashorat — Siz Omon Qolar Edingizmi?">
+    <meta property="og:description" content="Titanic kemasi halokatida omon qolish ehtimolligingizni bilib oling! Sun'iy intellekt asosida bashorat.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/RMS_Titanic_3.jpg/1200px-RMS_Titanic_3.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Animated background particles -->
+    <div class="ocean-bg">
+        <div class="wave wave-1"></div>
+        <div class="wave wave-2"></div>
+        <div class="wave wave-3"></div>
+        <div class="bubbles">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- Stars / snow -->
+    <div class="stars">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="ship-icon">🚢</div>
+            <h1 class="title">Titanic Bashorat</h1>
+            <p class="subtitle">1912-yil. Siz Titanikda bo'lganingizda omon qolar edingizmi?</p>
+            <p class="subtitle-small">Sun'iy intellekt (Logistik Regressiya) yordamida bashorat qiling</p>
+        </header>
+
+        <!-- Main Form Card -->
+        <div class="card main-card" id="prediction-form">
+            <div class="card-header">
+                <div class="card-icon">📋</div>
+                <h2>Ma'lumotlaringizni kiriting</h2>
+            </div>
+
+            <form id="titanicForm" onsubmit="return false;">
+                <!-- Name (optional) -->
+                <div class="form-group">
+                    <label for="name" class="form-label">
+                        <span class="label-icon">👤</span>
+                        Ismingiz <span class="optional">(majburiy emas)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        class="form-input" 
+                        placeholder="Masalan: Jack Dawson"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">⚧</span>
+                        Jins <span class="required">*</span>
+                    </label>
+                    <div class="gender-selector">
+                        <label class="gender-option" id="gender-male">
+                            <input type="radio" name="sex" value="0" required>
+                            <div class="gender-card">
+                                <span class="gender-icon">👨</span>
+                                <span class="gender-text">Erkak</span>
+                            </div>
+                        </label>
+                        <label class="gender-option" id="gender-female">
+                            <input type="radio" name="sex" value="1">
+                            <div class="gender-card">
+                                <span class="gender-icon">👩</span>
+                                <span class="gender-text">Ayol</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Age -->
+                <div class="form-group">
+                    <label for="age" class="form-label">
+                        <span class="label-icon">🎂</span>
+                        Yosh <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="age" 
+                        class="form-input" 
+                        placeholder="Yoshingizni kiriting"
+                        min="0" 
+                        max="100" 
+                        required
+                    >
+                    <div class="input-hint">0 dan 100 gacha</div>
+                </div>
+
+                <!-- Passenger Class -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">🎫</span>
+                        Klass (Chipta turi) <span class="required">*</span>
+                    </label>
+                    <div class="class-selector">
+                        <label class="class-option" id="class-1">
+                            <input type="radio" name="pclass" value="1" required>
+                            <div class="class-card class-card-1">
+                                <span class="class-badge">1-klass</span>
+                                <span class="class-name">Lyuks</span>
+                                <span class="class-price" id="price-1">~$84.15</span>
+                                <span class="class-desc">Eng yaxshi xonalar</span>
+                            </div>
+                        </label>
+                        <label class="class-option" id="class-2">
+                            <input type="radio" name="pclass" value="2">
+                            <div class="class-card class-card-2">
+                                <span class="class-badge">2-klass</span>
+                                <span class="class-name">O'rta</span>
+                                <span class="class-price" id="price-2">~$20.66</span>
+                                <span class="class-desc">Qulay sayohat</span>
+                            </div>
+                        </label>
+                        <label class="class-option" id="class-3">
+                            <input type="radio" name="pclass" value="3">
+                            <div class="class-card class-card-3">
+                                <span class="class-badge">3-klass</span>
+                                <span class="class-name">Oddiy</span>
+                                <span class="class-price" id="price-3">~$13.68</span>
+                                <span class="class-desc">Arzon chipta</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Fare (auto-filled) -->
+                <div class="form-group">
+                    <label for="fare" class="form-label">
+                        <span class="label-icon">💰</span>
+                        Chipta narxi ($)
+                    </label>
+                    <input 
+                        type="number" 
+                        id="fare" 
+                        class="form-input fare-input" 
+                        step="0.01" 
+                        min="0" 
+                        max="600"
+                        required
+                    >
+                    <div class="input-hint">Klass tanlanganida avtomatik belgilanadi</div>
+                </div>
+
+                <!-- Family members (Feature Engineering: SibSp + Parch -> FamilySize) -->
+                <div class="form-group">
+                    <label for="family_members" class="form-label">
+                        <span class="label-icon">👨‍👩‍👧‍👦</span>
+                        Oila a'zolari soni <span class="optional">(siz bilan birga)</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="family_members" 
+                        class="form-input" 
+                        value="0" 
+                        min="0" 
+                        max="15"
+                    >
+                    <div class="input-hint">Kema bortida siz bilan bo'lgan ota-ona, aka-uka, turmush o'rtoq yoki farzandlar soni (yolg'iz bo'lsangiz 0)</div>
+                </div>
+
+                <!-- Embarked Port -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">🏖️</span>
+                        Jo'nab chiqqan port
+                    </label>
+                    <div class="port-selector">
+                        <label class="port-option">
+                            <input type="radio" name="embarked" value="S" checked>
+                            <div class="port-card">
+                                <span class="port-flag">🇬🇧</span>
+                                <span class="port-name">Southampton</span>
+                            </div>
+                        </label>
+                        <label class="port-option">
+                            <input type="radio" name="embarked" value="C">
+                            <div class="port-card">
+                                <span class="port-flag">🇫🇷</span>
+                                <span class="port-name">Cherbourg</span>
+                            </div>
+                        </label>
+                        <label class="port-option">
+                            <input type="radio" name="embarked" value="Q">
+                            <div class="port-card">
+                                <span class="port-flag">🇮🇪</span>
+                                <span class="port-name">Queenstown</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="button" id="predictBtn" class="btn-predict" onclick="submitPrediction()">
+                    <span class="btn-icon">🔮</span>
+                    <span class="btn-text">Bashorat Qilish</span>
+                    <span class="btn-loader" id="btnLoader" style="display:none;">
+                        <span class="spinner"></span>
+                    </span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Result Card (hidden initially) -->
+        <div class="card result-card" id="result-card" style="display:none;">
+            <div class="result-close" onclick="closeResult()">✕</div>
+            
+            <div class="result-content">
+                <div class="result-name" id="result-name"></div>
+                
+                <div class="result-gauge-container">
+                    <div class="result-gauge" id="result-gauge">
+                        <svg viewBox="0 0 200 200" class="gauge-svg">
+                            <circle cx="100" cy="100" r="85" class="gauge-bg"/>
+                            <circle cx="100" cy="100" r="85" class="gauge-fill" id="gauge-fill"
+                                    stroke-dasharray="534" stroke-dashoffset="534"/>
+                        </svg>
+                        <div class="gauge-text">
+                            <span class="gauge-value" id="gauge-value">0</span>
+                            <span class="gauge-percent">%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-label" id="result-label"></div>
+                <div class="result-message" id="result-message"></div>
+                
+                <div class="result-facts" id="result-facts"></div>
+                
+                <button class="btn-retry" onclick="resetForm()">
+                    <span>🔄</span> Qayta Urinish
+                </button>
+                
+                <div class="share-section">
+                    <p class="share-title">Do'stlaringiz bilan ulashing!</p>
+                    <div class="share-buttons">
+                        <a class="share-btn share-telegram" id="share-telegram" href="#" target="_blank">
+                            📨 Telegram
+                        </a>
+                        <a class="share-btn share-copy" id="share-copy" onclick="copyLink()">
+                            📋 Linkni nusxalash
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin link -->
+        <div class="stats-link">
+            <a href="/stats" class="stats-btn" style="opacity: 0.7; font-size: 0.85rem;">🔒 Admin Panel (Faqat egasi uchun)</a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🚢 Titanic Bashorat — Logistik Regressiya modeli asosida</p>
+            <p class="footer-small">Ma'lumotlar faqat o'quv maqsadida ishlatiladi</p>
+        </footer>
+    </div>
+
+    <script>
+        // Class fares from server
+        const CLASS_FARES = {{ class_fares | tojson }};
+
+        // Auto-fill fare when class is selected
+        document.querySelectorAll('input[name="pclass"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const pclass = parseInt(this.value);
+                const fare = CLASS_FARES[pclass];
+                document.getElementById('fare').value = fare;
+                
+                // Animate fare input
+                const fareInput = document.getElementById('fare');
+                fareInput.classList.add('fare-highlight');
+                setTimeout(() => fareInput.classList.remove('fare-highlight'), 600);
+            });
+        });
+
+        // Submit prediction
+        async function submitPrediction() {
+            const form = document.getElementById('titanicForm');
+            
+            // Validate
+            const sex = document.querySelector('input[name="sex"]:checked');
+            const age = document.getElementById('age').value;
+            const pclass = document.querySelector('input[name="pclass"]:checked');
+            const fare = document.getElementById('fare').value;
+            
+            if (!sex) {
+                showToast('Iltimos, jinsni tanlang!', 'error');
+                return;
+            }
+            if (!age || age < 0 || age > 100) {
+                showToast('Iltimos, to\'g\'ri yoshni kiriting!', 'error');
+                return;
+            }
+            if (!pclass) {
+                showToast('Iltimos, klassni tanlang!', 'error');
+                return;
+            }
+            if (!fare) {
+                showToast('Iltimos, chipta narxini kiriting!', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('predictBtn');
+            const btnText = btn.querySelector('.btn-text');
+            const btnLoader = document.getElementById('btnLoader');
+            
+            btn.disabled = true;
+            btnText.textContent = 'Hisoblanmoqda...';
+            btnLoader.style.display = 'inline-flex';
+
+            const data = {
+                name: document.getElementById('name').value,
+                sex: parseInt(sex.value),
+                age: parseFloat(age),
+                pclass: parseInt(pclass.value),
+                fare: parseFloat(fare),
+                family_members: parseInt(document.getElementById('family_members').value) || 0,
+                embarked: document.querySelector('input[name="embarked"]:checked')?.value || 'S'
+            };
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showResult(result.probability, result.name, data);
+                } else {
+                    showToast('Xatolik yuz berdi: ' + result.error, 'error');
+                }
+            } catch (err) {
+                showToast('Server bilan bog\'lanishda xatolik!', 'error');
+            } finally {
+                btn.disabled = false;
+                btnText.textContent = 'Bashorat Qilish';
+                btnLoader.style.display = 'none';
+            }
+        }
+
+        // Show prediction result with animation
+        function showResult(probability, name, data) {
+            const resultCard = document.getElementById('result-card');
+            const formCard = document.getElementById('prediction-form');
+            
+            // Hide form, show result
+            formCard.style.display = 'none';
+            resultCard.style.display = 'block';
+            
+            // Scroll to result
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Set name
+            const displayName = name || 'Sayohatchi';
+            document.getElementById('result-name').textContent = displayName;
+            
+            // Set result label and message
+            const label = document.getElementById('result-label');
+            const message = document.getElementById('result-message');
+            
+            if (probability >= 70) {
+                label.textContent = '🎉 Omon Qolish Ehtimoli Yuqori!';
+                label.className = 'result-label result-survived';
+                message.textContent = `${displayName}, sizning omon qolish ehtimolligingiz juda yuqori! Omadingiz bor edi.`;
+            } else if (probability >= 40) {
+                label.textContent = '⚠️ 50/50 Ehtimollik';
+                label.className = 'result-label result-maybe';
+                message.textContent = `${displayName}, sizning taqdringiz noaniq. Omad siz tomonda bo'lishi ham, bo'lmasligi ham mumkin edi.`;
+            } else {
+                label.textContent = '💔 Xavf Yuqori';
+                label.className = 'result-label result-perished';
+                message.textContent = `${displayName}, afsuski, omon qolish ehtimolligingiz past. Titanic halokati juda xavfli edi.`;
+            }
+            
+            // Show interesting facts
+            const facts = document.getElementById('result-facts');
+            const factsHTML = generateFacts(data, probability);
+            facts.innerHTML = factsHTML;
+            
+            // Animate gauge
+            animateGauge(probability);
+            
+            // Update share links
+            const shareText = `🚢 Titanic bashorati: Mening omon qolish ehtimolim ${probability}%! Sen ham sinab ko'r:`;
+            const shareUrl = window.location.origin;
+            document.getElementById('share-telegram').href = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+        }
+
+        // Animate the circular gauge
+        function animateGauge(targetValue) {
+            const gaugeFill = document.getElementById('gauge-fill');
+            const gaugeValue = document.getElementById('gauge-value');
+            const circumference = 2 * Math.PI * 85; // ~534
+            
+            // Set gauge color based on probability
+            if (targetValue >= 70) {
+                gaugeFill.style.stroke = '#10b981';
+            } else if (targetValue >= 40) {
+                gaugeFill.style.stroke = '#f59e0b';
+            } else {
+                gaugeFill.style.stroke = '#ef4444';
+            }
+            
+            let currentValue = 0;
+            const duration = 2000;
+            const startTime = performance.now();
+            
+            function animate(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function (ease-out cubic)
+                const eased = 1 - Math.pow(1 - progress, 3);
+                
+                currentValue = eased * targetValue;
+                
+                const offset = circumference - (currentValue / 100) * circumference;
+                gaugeFill.style.strokeDashoffset = offset;
+                gaugeValue.textContent = Math.round(currentValue);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Generate interesting facts
+        function generateFacts(data, probability) {
+            const facts = [];
+            
+            if (data.sex === 1) {
+                facts.push('👩 Ayollar omon qolish ehtimoli ancha yuqori bo\'lgan — "Ayollar va bolalar birinchi!" qoidasi.');
+            } else {
+                facts.push('👨 Erkaklar omon qolish ehtimoli pastroq bo\'lgan — qutqaruv qayiqlarida ayollar va bolalarga ustuvorlik berilgan.');
+            }
+            
+            if (data.pclass === 1) {
+                facts.push('🥇 1-klass yo\'lovchilari 62.96% ehtimollik bilan omon qolishgan.');
+            } else if (data.pclass === 2) {
+                facts.push('🥈 2-klass yo\'lovchilari 47.28% ehtimollik bilan omon qolishgan.');
+            } else {
+                facts.push('🥉 3-klass yo\'lovchilari faqat 24.24% ehtimollik bilan omon qolishgan.');
+            }
+            
+            if (data.age < 16) {
+                facts.push('👶 Bolalar omon qolish ehtimoli kattaroq bo\'lgan.');
+            } else if (data.age > 60) {
+                facts.push('👴 Keksa yo\'lovchilar uchun vaziyat qiyinroq bo\'lgan.');
+            }
+            
+            facts.push('📊 Titanikda 2224 yo\'lovchidan 710 tasi (31.9%) omon qolgan.');
+            
+            return '<div class="facts-grid">' + 
+                   facts.map(f => `<div class="fact-item">${f}</div>`).join('') + 
+                   '</div>';
+        }
+
+        // Close result and show form again
+        function closeResult() {
+            document.getElementById('result-card').style.display = 'none';
+            document.getElementById('prediction-form').style.display = 'block';
+        }
+
+        // Reset form completely
+        function resetForm() {
+            document.getElementById('titanicForm').reset();
+            document.getElementById('fare').value = '';
+            closeResult();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Copy link to clipboard
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.origin).then(() => {
+                showToast('Link nusxalandi! ✅', 'success');
+            }).catch(() => {
+                // Fallback
+                const input = document.createElement('input');
+                input.value = window.location.origin;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast('Link nusxalandi! ✅', 'success');
+            });
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('toast-show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('toast-show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Add keyboard shortcut (Enter to submit)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('prediction-form').style.display !== 'none') {
+                submitPrediction();
+            }
+        });
+    </script>
+</body>
+</html>

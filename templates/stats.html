@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Yig'ilgan Natijalar va Dataset — Titanic Predictor</title>
+    <meta name="description" content="Titanic sayohatchilari bo'yicha foydalanuvchilarning barcha bashoratlari va yig'ilgan ma'lumotlar to'plami.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .stats-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .stats-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #f1f5f9;
+        }
+        .stats-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.45);
+        }
+        .btn-secondary {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+        }
+        .btn-secondary:hover {
+            background: rgba(51, 65, 85, 0.9);
+            color: #fff;
+        }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .summary-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+        .summary-card .num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #38bdf8;
+            margin-bottom: 6px;
+        }
+        .summary-card .label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .table-wrapper {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+        th, td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        th {
+            background: rgba(30, 41, 59, 0.6);
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .badge-prob {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .prob-high { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .prob-mid  { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .prob-low  { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="stats-container">
+        <div class="stats-header">
+            <div>
+                <h1 class="stats-title">📊 Yig'ilgan Natijalar Bazasi</h1>
+                <p style="color: #94a3b8; margin-top: 6px;">Foydalanuvchilar kiritgan ma'lumotlar va saqlangan dataset</p>
+            </div>
+            <div class="stats-actions">
+                <a href="/" class="btn-action btn-secondary">← Bosh Sahifa</a>
+                <a href="/download-dataset" class="btn-action btn-primary">📥 CSV Yuklab Olish</a>
+                <a href="/admin-logout" class="btn-action btn-secondary" style="border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">🚪 Chiqish</a>
+            </div>
+        </div>
+
+        {% if predictions %}
+            {% set total = predictions|length %}
+            {% set high_surv = namespace(count=0) %}
+            {% for p in predictions %}
+                {% if (p.survival_probability|float) >= 50.0 %}
+                    {% set high_surv.count = high_surv.count + 1 %}
+                {% endif %}
+            {% endfor %}
+            
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="num">{{ total }}</div>
+                    <div class="label">Jami So'rovlar Soni</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num">{{ high_surv.count }}</div>
+                    <div class="label">Tirik Qolish Ehtimoli > 50%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num">{{ (high_surv.count / total * 100)|round(1) }}%</div>
+                    <div class="label">O'rtacha Tirik Qolish Ko'rsatkichi</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vaqt</th>
+                            <th>Ism</th>
+                            <th>Jinsi</th>
+                            <th>Yoshi</th>
+                            <th>Klass</th>
+                            <th>Chipta ($)</th>
+                            <th>Oila</th>
+                            <th>Port</th>
+                            <th>Omon Qolish</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in predictions|reverse %}
+                        <tr>
+                            <td style="color: #64748b; font-size: 0.85rem;">{{ row.timestamp }}</td>
+                            <td style="font-weight: 600; color: #f1f5f9;">{{ row.name }}</td>
+                            <td>{{ row.sex }}</td>
+                            <td>{{ row.age }}</td>
+                            <td><span style="color: #38bdf8;">{{ row.pclass }}-klass</span></td>
+                            <td>${{ row.fare }}</td>
+                            <td>{{ row.family_members if row.family_members is defined and row.family_members != '' else ((row.sibsp|default(0)|int) + (row.parch|default(0)|int)) }} kishi</td>
+                            <td>{{ row.embarked }}</td>
+                            <td>
+                                {% set prob = row.survival_probability|float %}
+                                {% if prob >= 70 %}
+                                    <span class="badge-prob prob-high">{{ prob }}%</span>
+                                {% elif prob >= 40 %}
+                                    <span class="badge-prob prob-mid">{{ prob }}%</span>
+                                {% else %}
+                                    <span class="badge-prob prob-low">{{ prob }}%</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="table-wrapper empty-state">
+                <div style="font-size: 3rem; margin-bottom: 12px;">📂</div>
+                <h3>Hozircha hech qanday ma'lumot saqlanmagan</h3>
+                <p style="margin-top: 8px;">Bosh sahifaga o'tib ma'lumotlaringizni kiriting va birinchi bashoratni qiling!</p>
+                <a href="/" class="btn-action btn-primary" style="margin-top: 20px;">Birinchi Bashoratni Qilish</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
